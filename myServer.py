@@ -1,5 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-
+from http import HTTPStatus
 
 HOST = "127.0.0.1"
 PORT = 8008
@@ -13,13 +13,13 @@ def returnHTML():
 
 class Server(BaseHTTPRequestHandler):
     def do_GET(self):
-        self.send_response(200)
+        self.send_response(HTTPStatus.OK.value)
         self.send_header("Content-type", "text/html")
         self.end_headers()
 
         self.wfile.write(bytes(returnHTML(), "utf-8"))
 
 
-server = HTTPServer((HOST, PORT), Server)
-print(f"Server running at https://{HOST}/{PORT}")
+server = HTTPServer(("", PORT), Server)
+print(f"Server running at https://{HOST}:{PORT}")
 server.serve_forever()
